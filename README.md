@@ -81,3 +81,5 @@ Alphabetically sorted list of contributors who developed and maintain this amazi
 
 ## 💻 Sponsors
 <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fmedia.licdn.com%2Fdms%2Fimage%2FC4E0BAQFhqvq3s7G_RQ%2Fcompany-logo_200_200%2F0%2F1654002774912%2Fzhaw_school_of_engineering_logo%3Fe%3D2147483647%26v%3Dbeta%26t%3DCRnJ5bYGGof4-_wRvxzPpm6syWTUFXx2ulBsTc9FpWM&f=1&nofb=1&ipt=29c168f9daabe7dfbda00924b851aa84d84d44195925380779bee10a8d06112e&ipo=images">
+
+This is a copy of my group project work, which was carried out at the Zurich University of Applied Sciences (ZHAW)
