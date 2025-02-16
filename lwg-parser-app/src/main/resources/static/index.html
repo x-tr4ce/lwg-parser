@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+        <title>LWG Parser</title>
+        <link href="/css/reset.css" rel="stylesheet">
+        <link href="/css/variables.css" rel="stylesheet">
+        <link href="/css/header.css" rel="stylesheet">
+        <link href="/css/main_body.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    </head>
+    <body>
+    <!-- Loading indicator -->
+    <div id="loading-indicator" class="hidden">
+        Crunching the numbers<span id="loading-dots"></span>
+    </div>
+        <header>
+            <div class="logo">
+                <img src="/assets/LWG-Logo-text.svg" width="250" alt="LWG-Parser">
+            </div>
+            <nav>
+                <button class="parser-tab" aria-controls="parser-section">Parser</button>
+                <button class="documentation-tab" aria-controls="documentation-section">Documentation</button>
+                <button class="tutorial-tab" aria-controls="tutorial-section">Tutorial</button>
+            </nav>
+        </header>
+        
+        <!-- Parser Section -->
+        <section class="visible" id="parser-section">
+            <div class="project-controls">
+                <!-- Project Tabs -->
+                <div class="project-bar">
+                    <div class="tab-container"></div>
+                    <span class="add-tab">+</span>
+                </div>
+                
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                    <button id="run-button">
+                        Run
+                        <svg class="button-icon" height="60" viewBox="0 0 60 60" width="60"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <path d="M 17.52 53 L 16.184517 53 C 13.876852 52.991859 12.00814 51.123146 12 48.815483 L 12 11.184517 C 12.00814 8.876854 13.876852 7.008141 16.184517 7 L 17.52 7 C 19.006285 7.2882 20.371349 8.017269 21.437418 9.092258 L 45.461288 26.097416 C 47.616119 28.252966 47.616119 31.747034 45.461288 33.902576 L 45.283226 34.065804 L 21.437418 50.907742 C 20.371349 51.982731 19.006285 52.7118 17.52 53 Z M 17.430967 9.967743 L 16.184517 9.967743 C 15.513463 9.983677 14.975544 10.528156 14.967742 11.199356 L 14.967742 48.815483 C 14.967742 49.487488 15.51251 50.032257 16.184517 50.032257 L 17.52 50.032257 C 18.215706 49.683521 18.855799 49.233456 19.419355 48.696774 L 19.671614 48.548386 L 43.413548 31.750969 C 44.301926 30.781073 44.301926 29.293125 43.413548 28.323225 L 19.419355 11.288387 C 18.832182 10.743736 18.160698 10.297756 17.430967 9.967743 Z"
+                                  id="Pfad"
+                                  stroke="currentColor"
+                                  stroke-width="3.709677"/>
+                        </svg>
+                    </button>
+                    <button id="stop-button">
+                        Stop
+                        <svg class="button-icon" height="32" viewBox="0 0 32 32" width="32"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <path d="M 24 29 L 8 29 C 5.238576 29 3 26.761423 3 24 L 3 8 C 3 5.238577 5.238576 3 8 3 L 24 3 C 26.761423 3 29 5.238577 29 8 L 29 24 C 29 26.761423 26.761423 29 24 29 Z M 8 5 C 6.343146 5 5 6.343145 5 8 L 5 24 C 5 25.656855 6.343146 27 8 27 L 24 27 C 25.656855 27 27 25.656855 27 24 L 27 8 C 27 6.343145 25.656855 5 24 5 Z"
+                                  fill="#000000"
+                                  id="Pfad"
+                                  stroke="currentColor"
+                                  stroke-width="3"/>
+                        </svg>
+                    </button>
+                    <button id="debug-button">
+                        Debug
+                        <svg class="button-icon" height="32" viewBox="0 0 32 32" width="32"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <path d="M 29.83 20 L 30.17 18 L 25 17.15 L 25 13 C 25 12.92 25 12.85 25 12.77 L 30.059999 11.41 L 29.549999 9.48 L 24.719999 10.77 C 24.054602 8.254856 22.333361 6.150711 20 5 L 20 2 L 18 2 L 18 4.23 C 16.684303 3.923309 15.315698 3.923309 14 4.23 L 14 2 L 12 2 L 12 5 C 9.65927 6.163904 7.940258 8.288033 7.29 10.82 L 2.46 9.48 L 2 11.41 L 7 12.77 C 7 12.85 7 12.92 7 13 L 7 17.15 L 1.84 18 L 2.16 20 L 7 19.18 C 7.022844 20.413984 7.302091 21.629728 7.82 22.75 L 3.29 27.290001 L 4.71 28.709999 L 8.9 24.51 C 10.605294 26.699112 13.22507 27.979177 16 27.979177 C 18.774929 27.979177 21.394707 26.699112 23.1 24.51 L 27.290001 28.709999 L 28.709999 27.290001 L 24.17 22.75 C 24.691359 21.630474 24.974018 20.414698 25 19.18 Z M 15 25.92 C 11.559073 25.423347 9.004074 22.476582 9 19 L 9 13 L 15 13 Z M 9.29 11 C 10.172473 8.030342 12.901998 5.993965 16 5.993965 C 19.098003 5.993965 21.827526 8.030342 22.709999 11 Z M 23 19 C 22.995926 22.476582 20.440928 25.423347 17 25.92 L 17 13 L 23 13 Z"
+                                  fill="currentColor"
+                                  id="Pfad"
+                                  stroke="currentColor"
+                                  stroke-width="1.2"/>
+                            <path d="M 0 0 L 32 0 L 32 32 L 0 32 Z" fill="none" id="path1" stroke="none"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Project Content (Placeholder for now) -->
+            <div id="project-content">
+                <section class="main-container">
+                    <!-- Variable Input Section -->
+                    <div class="var-input-section">
+                        <h2 class="var-input-title">Variable Input</h2>
+                        <div class="scrollable-variables">
+                            <form id="variable-form">
+                            </form>
+                            <button id="add-variable" type="button">
+                                <img alt="Add Variable" id="add-variable-icon" src="/assets/plus_icon.svg">
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Code Input Section -->
+                    <div class="code-input-section">
+                        <h2>Code Input</h2>
+                        <div id="code-editor"></div>
+                    </div>
+                    
+                    <!-- Output Section -->
+                    <div class="output-section">
+                        <h2>Code Output</h2>
+                        <!-- Formatted output will be inserted here -->
+                    </div>
+                </section>
+            
+            </div>
+        </section>
+        
+        
+        
+        
+        
+        
+        
+        <!-- Documentation Section -->
+        <section class="hidden" id="documentation-section">
+            <h1>Documentation & Examples</h1>
+            <section id="loop-while">
+                <h2>Loop/While</h2>
+                
+                <h3 id="loop-while-literals">Literals</h3>
+                <p>Literals in Loop/While programs can be variables or constants.</p>
+                
+                <h3 id="loop-while-variables">Variables</h3>
+                <ul>
+                    <li>Variables start with the letter <code>x</code> followed by a natural number (<code>x0</code>,
+                        <code>x1</code>,
+                        <code>x2</code>, ...).
+                    </li>
+                    <li><code>x0</code> usually serves as the return variable and should hold the result of the program.
+                    </li>
+                    <li><code>x0</code>, <code>x1</code>, <code>x2</code>, ... are initialized from the program's
+                        parameters.
+                    </li>
+                    <li>Unused variables are initialized to <code>0</code> by default.</li>
+                    <li> If a variable would be decremented below <code>0</code>, it is set to <code>0</code> instead.</li>
+                </ul>
+                
+                <h3 id="loop-while-constants">Constants</h3>
+                <ul>
+                    <li>Constants are natural numbers (<code>0</code>, <code>1</code>, <code>2</code>, ...).</li>
+                    <li>Only non-negative values are allowed.
+                    </li>
+                
+                </ul>
+                
+                <h3 id="loop-while-keywords">Keywords</h3>
+                <p>The following keywords control the program's flow:</p>
+                <ul>
+                    <li><code>Loop</code>: Initiates a fixed-number iteration block.</li>
+                    <li><code>While</code>: Starts a conditional iteration block.</li>
+                    <li><code>Do</code>: Indicates the start of the block for both <code>Loop</code> and
+                        <code>While</code>.
+                    </li>
+                    <li><code>End</code>: Marks the end of a <code>Loop</code> or <code>While</code> block.</li>
+                </ul>
+                
+                <h3 id="loop-while-semicolons">Use of semicolon</h3>
+                <ul>
+                    <li>Semicolons are used as separators to distinguish between sequential statements within a
+                        block.They clarify the sequence of operations when chaining multiple commands.</li>
+                    <li>A semicolon is required between statements but not allowed before an <code>End</code> or at the
+                        end of the program.
+                    </li>
+                </ul>
+                
+                <h3 id="loop-while-programs">Programs</h3>
+                <ol>
+                    <li>Assignments:
+                        <p>Assigns the result of a constant added to or subtracted from a variable to a variable:</p>
+                        <div class="code-example">
+                        <pre>x1 = x1 + 6;
+x2 = x1 - 4</pre>
+                            <button class="copy-button">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                     class="feather feather-copy">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                </svg>
+                                Copy code
+                            </button>
+                        </div>
+
+                    </li>
+                    <li>Loop Programs:
+                        <p>Repeats a block of instructions a fixed number of times. This can either be a constant or
+                        a variable.</p>
+                        <div class="code-example">
+                        <pre>x0 = x0 + 6;
+x1 = x1 + 4;
+
+Loop x1 Do
+   x0 = x0 + 1
+End;
+Loop 3 Do
+   x0 = x0 + 2
+End
+                        </pre>
+                        <button class="copy-button">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                 class="feather feather-copy">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                            </svg>
+                            Copy code
+                        </button>
+                        </div>
+
+                    </li>
+                    <li>While Programs:
+                        <p>Repeats a block of instructions as long as a variable is larger than zero.</p>
+                        <div class="code-example">
+                        <pre>x1 = x1 + 4;
+x0 = x0 + 6;
+
+While x1 > 0 Do
+   x0 = x0 + 1;
+   x1 = x1 - 1
+End</pre>
+                        <button class="copy-button">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                 class="feather feather-copy">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                            </svg>
+                            Copy code
+                        </button>
+                        </div>
+                    </li>
+                    <li>Nested Loops:
+                        <p>Multiple loops can be nested:</p>
+                        <div class="code-example">
+                        <pre>x1 = x1 + 5;
+x2 = x2 + 2;
+
+While x2 > 0 Do
+   x3 = x3 + 2;
+   Loop x1 Do
+     x4 = x4 + 1
+   End;
+   x2 = x2 - 1
+End  </pre>
+                        <button class="copy-button">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                 class="feather feather-copy">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                            </svg>
+                            Copy code
+                        </button>
+                        </div>
+                    </li>
+                </ol>
+                
+                <h3 id="loop-while-examples">Code Examples</h3>
+                <p>Example 1: This program increments <code>x1</code> by 1 <code>x2</code> times.</p>
+                <div class="code-example">
+                <pre>x1 = x1 + 6;
+x2 = x2 + 4;
+
+Loop x2 Do
+   x1 = x1 + 1
+End</pre>
+                <button class="copy-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                         class="feather feather-copy">
+                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                    </svg>
+                    Copy code
+                </button>
+                </div>
+                
+                <p>Example 2: This program decrements <code>x2</code> and increments <code>x1</code> until
+                    <code>x2</code> =
+                   0.</p>
+                <div class="code-example">
+                <pre>x1 = x1 + 6;
+x2 = x2 + 4;
+
+While x2 > 0 Do
+   x1 = x1 + 1;
+   x2 = x2 - 1
+End</pre>
+                <button class="copy-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                         class="feather feather-copy">
+                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                    </svg>
+                    Copy code
+                </button>
+                </div>
+            </section>
+            
+            <!-- Goto Section -->
+            <section id="goto">
+                <h2>Goto</h2>
+                
+                <h3 id="goto-literals">Literals</h3>
+                <p>Literals in GOTO programs can be variables or constants.</p>
+                
+                <h3 id="goto-variables">Variables</h3>
+                <ul>
+                    <li>Variables start with the letter <code>x</code> followed by a natural number (<code>x0</code>,
+                        <code>x1</code>,
+                        <code>x2</code>, ...).
+                    </li>
+                    <li><code>x0</code> usually serves as the return variable and should hold the result of the program.
+                    </li>
+                    <li><code>x0</code>, <code>x1</code>, <code>x2</code>, ... are initialized from the program's
+                        parameters.
+                    </li>
+                    <li>Unused variables are initialized to <code>0</code> by default.</li>
+                    <li> If a variable would be decremented below <code>0</code>, it is set to <code>0</code> instead.</li>
+                </ul>
+                
+                <h3 id="goto-constants">Constants</h3>
+                <ul>
+                    <li>Constants are natural numbers (<code>0</code>, <code>1</code>, <code>2</code>, ...).</li>
+                    <li>Only non-negative values are allowed.</li>
+                </ul>
+
+                <h3 id="goto-markers">Markers</h3>
+                <p>Markers (<code>M1</code>, <code>M2</code>, ...) label instructions and facilitate jumps within
+                    the
+                    program.</p>
+                
+                <h3 id="goto-keywords">Keywords</h3>
+                <p>GOTO programs use the following keywords to define program flow and structure:</p>
+                <ul>
+                    <li><code>Goto</code>: Performs an unconditional jump to a specified marker.</li>
+                    <li><code>If</code>: Used for conditional jumps; checks if a variable equals a constant before
+                                       jumping.
+                    </li>
+                    <li><code>Then</code>: Completes the condition in a conditional jump statement.</li>
+                    <li><code>Halt</code>: Terminates the program.</li>
+                </ul>
+                
+                <h3 id="goto-semicolons">Use of semicolon</h3>
+                <ul>
+                    <li>Semicolons act as separators between instructions, ensuring that each command is distinct.
+                    </li>
+                    <li>The last line of a program should not end with a semicolon.</li>
+                </ul>
+                
+                <h3 id="goto-program">Program Structure</h3>
+                <p>A GOTO program is a sequence of instructions that operate on variables, with flow control
+                   achieved
+                   through markers (<code>M1</code>, <code>M2</code>, ...).</p>
+                
+                <ol>
+                    <li>Assignments:
+                        <p>Assigns the result of a constant added to or subtracted from a variable to a variable:</p>
+                        <div class="code-example">
+                        <pre>M1: x1 = x2 + 0;
+M2: x3 = x4 - 1</pre>
+                        <button class="copy-button">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                 class="feather feather-copy">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                            </svg>
+                            Copy code
+                        </button>
+                        </div>
+                    </li>
+                    <li>Conditional Jumps:
+                        <p>Check if a variable equals a constant and jump to a marker:</p>
+                        <div class="code-example">
+                        <pre>M1: x1 = x1 + 6;
+M2: x0 = x0 + 1;
+M3: If x1 = 6 Then Goto M5;
+M4: x0 = x0 + 10;
+M5: Halt</pre>
+                            <button class="copy-button">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                     class="feather feather-copy">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                </svg>
+                                Copy code
+                            </button>
+                        </div>
+                    </li>
+                    <li>Unconditional Jumps:
+                        <p>Directly jump to a marker:</p>
+                        <div class="code-example">
+                        <pre>M1: x0 = x0 + 6;
+M2: Goto M4;
+M3: x0 = x0 + 4;
+M4: Halt</pre>
+                            <button class="copy-button">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                     class="feather feather-copy">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                </svg>
+                                Copy code
+                            </button>
+                        </div>
+                    </li>
+                </ol>
+                
+                <h3 id="goto-examples">Code Example</h3>
+                <p>Example: To calculate the addition of two variables (Add(x, y) = x + y):</p>
+                <div class="code-example">
+                <pre>M1: x1 = x1 + 4;
+M2: x2 = x2 + 6;
+
+M3: x0 = x1 + 0;
+M4: If x2 = 0 Then Goto M8;
+M5: x2 = x2 - 1;
+M6: x0 = x0 + 1;
+M7: Goto M4;
+M8: Halt </pre>
+                <button class="copy-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                         class="feather feather-copy">
+                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                    </svg>
+                    Copy code
+                </button>
+                </div>
+            </section>
+        </section>
+        
+        
+        
+        
+        
+        
+        <!-- Tutorial Section -->
+        <section class="hidden" id="tutorial-section">
+            <h1>Tutorial</h1>
+            <section id="working-with-projects">
+                <h2>Working with Projects</h2><img src="/assets/documentation_pictures/project-manage.png" alt="Working with Projects Image" />
+
+                <h3 id="creating-projects">Creating a New Project</h3>
+                <p>1. Navigate to the <strong>project-tab</strong> area.</p>
+                <p>2. Click the <strong>"+" Button</strong> to create a new project.</p>
+                <ul>
+                    <li>A new empty project tab (e.g., "Project 2") will appear.</li>
+                </ul>
+
+                <h3 id="switching-projects">Switching Between Projects</h3>
+                <p>Simply click on a project tab to switch to that project.</p>
+
+                <h3 id="deleting-projects">Deleting a Project</h3>
+                <p>To close and delete a project, click the <strong>"X" Button</strong> on its tab</p>
+            </section>
+
+            <section id="managing-variables">
+                <h2>Initializing and Managing Variables</h2><img src="/assets/documentation_pictures/variable-input.png" alt="Variable Input" />
+
+                <h3 id="adding-variables">Adding Variables</h3>
+                <p>1. Navigate to the <strong>variable-input</strong> section.</p>
+                <p>2. Click the <strong>"+" Button</strong> to add a new variable.</p>
+                <ul>
+                    <li>A new variable will be created with an empty value field.</li>
+                </ul>
+
+                <h3 id="setting-variable-values">Setting Variable Values</h3>
+                <p>1. Click inside the value field of the variable.</p>
+                <p>2. Type the desired value.</p>
+
+                <h3 id="renaming-variables">Renaming Variables</h3>
+                <p>The system uses variable names in the format xN, where <strong>x</strong> is fixed and <strong>N</strong> is an integer (e.g., <code>x3</code> or <code>x4</code>).</p>
+                <br>
+                <p>1. Double-click on the number in the variable name.</p>
+                <p>2. Enter a new number to replace the old one.</p>
+                <ul>
+                    <li>Note: You cannot create entirely new names (e.g., "example-variable"). <br>
+                        You can only modify the numeric value after x.</li>
+                </ul>
+
+                <h3 id="deleting-variables">Deleting Variables</h3>
+                <p>Click the <strong>"X" Button</strong> next to a variable to delete it.</p>
+            </section>
+
+            <section id="writing-code">
+                <h2>Writing Code</h2><img src="/assets/documentation_pictures/code-input.png" alt="Writing code" />
+                <p>1. Navigate to the Code Input section.</p>
+                <p>2. Enter your program using the syntax of the <strong>LOOP/WHILE</strong> or <strong>GOTO</strong> language.</p>
+            </section>
+
+            <section id="executing-programs">
+                <h2>Executing Programs</h2><img src="/assets/documentation_pictures/run.png" alt="run" />
+
+                <h3 id="execute-code">Executing Your Code</h3>
+                <p>1. Click the <strong>"Run Button"</strong></p>
+                <p>2. Observe the output:</p>
+                <ul>
+                    <li><b>Success:</b> A success message and the final values of all variables if the program runs correctly.</li>
+                    <li><b>Error:</b> An error message with details, including the type of error and the line number, if issues are detected.</li>
+                </ul>
+            </section>
+
+            <section id="stopping-execution">
+                <h2>Stopping Execution</h2><img src="/assets/documentation_pictures/stop.png" alt="stop" />
+                <p>Click the <strong>"Stop Button"</strong> to halt program execution immediately.</p>
+                <p>Programs that run for longer than <strong>15 seconds</strong> will stop automatically.</p>
+            </section>
+
+            <section id="debugging-programs">
+                <h2>Debugging Programs</h2><img src="/assets/documentation_pictures/debug-buttons.png" alt="debugging" />
+
+                <h3 id="step-by-step">Step-by-Step Execution</h3>
+                <p>1. Click the <strong>"Debug Button"</strong> (blue with a bug icon) to enter debug mode.</p>
+                <p>2. Use the <strong>"Next Button"</strong> to execute the program line by line.</p>
+                <p>3. Use the <strong>"Back Button"</strong> to step backward if you need to review previous states.</p>
+
+                <h3 id="variable-values-debug">Monitoring Variables in Debug Mode</h3>
+                <p>While debugging, you can view the real-time values of variables as they update with each step.</p>
+            </section>
+        </section>
+        
+<!--         <script src="/js/script.js"></script> -->
+        <script src="/js/app.js" type="module"></script>
+        <script src="/js/api.js" type="module"></script>
+        <script src="/js/dom.js" type="module"></script>
+        <script src="/js/events.js" type="module"></script>
+        <script src="/js/tabs.js" type="module"></script>
+        <script src="/js/variables.js" type="module"></script>
+        <script src="/js/bundled/editor.js" type="module"></script>
+    
+    </body>
+</html>

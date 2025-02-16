@@ -1,0 +1,578 @@
+/*********************************************
+ * GLOBAL STYLES
+ ********************************************/
+
+:root {
+    color-scheme: dark;
+}
+
+html {
+    font-size: 16px;
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    background: var(--color-background);
+    color: var(--color-text);
+    font-family: Arial, sans-serif;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: auto;
+}
+
+/*********************************************
+ * PROJECT CONTROLS SECTION
+ ********************************************/
+.project-controls {
+    display: grid;
+    grid-template-columns: 3fr 1.5fr;
+    gap: 2rem;
+    align-items: center;
+    background-color: var(--color-nav-bg);
+    color: var(--color-text);
+    padding: 0 2rem;
+}
+
+/*********************************************
+ * TABS STYLING
+ ********************************************/
+.project-bar {
+    display: flex;
+    align-items: center;
+    max-width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+    scrollbar-width: none; /* For Firefox */
+}
+
+.project-bar::-webkit-scrollbar {
+    display: none; /* Hide scrollbar for Chrome, Safari, and Edge */
+}
+
+.tab-container {
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.tab {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--color-secondary);
+    position: relative;
+    align-content: center;
+    cursor: pointer;
+    padding: 0.5rem 0.2rem 0.5rem 1rem;
+    font-weight: bold;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.tab.active {
+    background-color: var(--color-primary);
+}
+
+.add-tab {
+    background-color: var(--color-secondary);
+    cursor: pointer;
+    padding: 0.5rem;
+}
+
+/*********************************************
+ * CLOSE TAB BUTTON
+ ********************************************/
+.close-tab {
+    display: flex;
+    background: none;
+    border: none;
+    color: var(--color-tab-close);
+    cursor: pointer;
+    font-size: 0.8rem;
+    margin-left: 1rem;
+    padding: 0;
+}
+
+.close-tab:hover {
+    color: var(--color-accent);
+}
+
+.close-icon {
+    width: 25px;
+    height: 25px;
+    display: block;
+}
+
+/*********************************************
+ * ACTION BUTTONS
+ ********************************************/
+.action-buttons {
+    box-sizing: border-box;
+    display: flex;
+    gap: 1rem;
+    justify-content: space-between;
+    padding: 0.3rem 0 0.3rem 0.6rem;
+    width: 100%;
+}
+
+.action-buttons button {
+    box-sizing: border-box;
+    border: 3px solid transparent;
+    border-radius: 5px;
+    color: black;
+    cursor: pointer;
+    flex: 1;
+    padding: 0.1rem;
+    font-weight: bold;
+    font-size: 1.2rem;
+    font-family: 'JetBrains Mono', monospace;
+    display: flex;
+    justify-content: center;
+}
+
+.action-buttons #run-button {
+    background-color: var(--color-button-run);
+}
+
+.action-buttons #run-button:hover {
+    border: 3px solid var(--color-button-run);
+    background-color: transparent;
+    color: var(--color-button-run);
+}
+
+.action-buttons #stop-button {
+    background-color: var(--color-button-stop);
+}
+
+.action-buttons #stop-button:hover {
+    border: 3px solid var(--color-button-stop);
+    background-color: transparent;
+    color: var(--color-button-stop);
+}
+
+.action-buttons #debug-button {
+    background-color: var(--color-button-debug);
+}
+
+.action-buttons #debug-button:hover {
+    border: 3px solid var(--color-button-debug);
+    background-color: transparent;
+    color: var(--color-button-debug);
+}
+
+.action-buttons #next-button,
+.action-buttons #prev-button {
+    background-color: var(--color-primary);
+    color: var(--color-text);
+}
+
+.action-buttons #next-button:hover,
+.action-buttons #prev-button:hover {
+    border: 3px solid var(--color-primary);
+    background-color: transparent;
+    color: var(--color-primary);
+}
+
+.action-buttons #next-button:disabled,
+.action-buttons #prev-button:disabled,
+.action-buttons #run-button:disabled,
+.action-buttons #debug-button:disabled {
+    background-color: var(--color-button-disabled);
+    cursor: not-allowed;
+    color: var(--color-text);
+}
+
+
+
+.action-buttons button:disabled {
+    background-color: var(--color-button-disabled);
+    cursor: not-allowed;
+    color: var(--color-text);
+}
+
+.button-icon {
+    width: 25px;
+    height: 25px;
+    margin-left: 0.2rem;
+}
+
+/*********************************************
+ * MAIN CONTAINER
+ ********************************************/
+
+#parser-section {
+    height: 80%;
+}
+
+#project-content{
+    height: 100%;
+}
+
+.main-container {
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: 1fr 2fr 1.5fr;
+    font-family: 'JetBrains Mono', monospace;
+    padding: 2rem 2rem;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+/*********************************************
+ * INPUT SECTIONS (Variables, Code, Output)
+ ********************************************/
+.var-input-section,
+.code-input-section,
+.output-section {
+    background-color: var(--color-box-bg);
+    border-radius: 5px;
+    padding: 1rem;
+    border: 1px solid var(--color-box-border);
+    font-size: 1.2rem;
+}
+
+.var-input-section {
+    max-width: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    min-width: 15em;
+    scrollbar-width: none; /* For Firefox */
+}
+
+.scrollable-variables {
+    max-height: 100%;
+    overflow-y: auto;
+    scrollbar-width: none; /* For Firefox */
+}
+
+.scrollable-variables::-webkit-scrollbar {
+    display: none; /* Hide scrollbar for Chrome, Safari, and Edge */
+}
+
+
+.var-input-section h2,
+.code-input-section h2,
+.output-section h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+/*********************************************
+ * TEXTAREA AND INPUT STYLING
+ ********************************************/
+.code-input-section {
+    overflow: hidden;
+}
+
+#code-editor {
+    height: 90%;
+}
+
+textarea {
+    background-color: var(--color-input-bg);
+    color: var(--color-text);
+    border-radius: 5px;
+    font-family: 'JetBrains Mono', monospace;
+    display: block;
+    box-sizing: border-box;
+    font-size: 1rem;
+    padding: 0.5rem;
+    height: 90%;
+    width: 100%;
+    line-height: 1.6;
+}
+
+input {
+    background-color: var(--color-input-bg);
+    color: var(--color-text);
+    border: 3px solid var(--color-input-border);
+    border-radius: 5px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.2rem;
+    padding: 0.5rem;
+    flex-grow: 1;
+    width: 100%;
+}
+
+/* Hide the spinner controls in number inputs */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield; /* Firefox */
+}
+
+input:focus {
+    outline: none;
+    border: 3px solid var(--color-primary-light);
+}
+
+/*********************************************
+ * VARIABLE INPUT FORM
+ ********************************************/
+.var-input-section form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+.var-input-section form div {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.var-input-section .variable-label {
+    font-size: 1.2rem;
+    flex: 0 0 4rem;
+    text-align: left;
+    margin-left: 0.5rem;
+    cursor: pointer;
+}
+
+.var-input-section input {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+#add-variable {
+    border: 3px solid transparent;
+    display: block;
+    background-color: var(--color-primary);
+    border-radius: 5px;
+    padding: 0.4rem 0;
+    cursor: pointer;
+    vertical-align: middle;
+    width: 100%;
+    margin-top: 1rem;
+}
+
+#add-variable:hover {
+    background-color: transparent;
+    border: 3px solid var(--color-primary);
+}
+
+#add-variable-icon {
+    width: 20px;
+    height: 20px;
+}
+
+.delete-variable {
+    cursor: pointer;
+    background: none;
+    border: none;
+}
+
+
+/*********************************************
+ * RESPONSIVE DESIGN
+ ********************************************/
+@media (max-width: 768px) {
+    .main-container {
+        grid-template-columns: 1fr;
+    }
+
+    .var-input-section,
+    .code-input-section,
+    .output-section {
+        margin-bottom: 1rem;
+    }
+
+    .project-bar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+}
+
+/*********************************************
+ * VISIBILITY CLASSES
+ *********************************************/
+.hidden {
+    display: none;
+}
+
+.visible {
+    display: block;
+}
+
+
+/*********************************************
+ * DOCUMENTATION  & TUTORIAL PAGE STYLES
+ *********************************************/
+
+#documentation-section {
+    padding: 2rem;
+}
+
+#documentation-section section {
+    padding: 2rem;
+    background-color: var(--color-box-bg);
+    border-radius: 8px;
+    border: 1px solid var(--color-input-border);
+    margin-bottom: 2rem;
+}
+
+/* General Typography */
+#documentation-section h1,
+#documentation-section h2,
+#documentation-section h3,
+#tutorial-section h1,
+#tutorial-section h2,
+#tutorial-section h3 {
+    color: var(--color-text);
+    margin-bottom: 1rem;
+}
+
+#documentation-section h1,
+#tutorial-section h1{
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+#documentation-section h2,
+#tutorial-section h2{
+    font-size: 2rem;
+    padding-bottom: 0.5rem;
+}
+
+#documentation-section h3,
+#tutorial-section h3{
+    font-size: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+/* Text Styles */
+#documentation-section p,
+#documentation-section ul,
+#documentation-section ol,
+#tutorial-section p,
+#tutorial-section ul,
+#tutorial-section ol{
+    margin-bottom: 1rem;
+    font-size: 1rem;
+}
+
+#documentation-section em,
+#tutorial-section em{
+    font-style: italic;
+}
+
+/* List Styles */
+#documentation-section ul,
+#documentation-section ol,
+#tutorial-section ul,
+#tutorial-section ol{
+    margin-left: 2rem; /* Add indentation for list items */
+    list-style-position: outside; /* Ensure list markers are outside the content */
+    list-style-type: disc; /* Default bullet for unordered lists */
+}
+
+#documentation-section ol,
+#tutorial-section ol{
+    list-style-type: decimal; /* Numbered lists */
+}
+
+#documentation-section ul li,
+#documentation-section ol li,
+#tutorial-section ul li,
+#tutorial-section ol li{
+    margin-bottom: 0.5rem; /* Add spacing between list items */
+}
+
+/* Code Blocks */
+#documentation-section pre {
+    background-color: var(--color-box-bg);
+    color: var(--color-text);
+    padding: 1.2rem;
+    border-radius: 5px;
+    border: 1px solid var(--color-input-border);
+    overflow-x: auto;
+    font-family: 'JetBrains Mono', monospace;
+    line-height: 1.4;
+    max-width: 100%;
+    white-space: pre-wrap; /* Allows wrapping for long lines */
+    margin-bottom: 1.5rem;
+}
+
+#documentation-section code,
+#tutorial-section code{
+    background-color: var(--color-input-bg);
+    padding: 0.2rem 0.4rem;
+    border-radius: 3px;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+#tutorial-section {
+    padding: 2rem;
+}
+
+#tutorial-section section {
+    padding: 2rem;
+    background-color: var(--color-box-bg);
+    border-radius: 8px;
+    border: 1px solid var(--color-input-border);
+    margin-bottom: 2rem; /* Add spacing between sections */
+}
+
+.code-example {
+    position: relative;
+    margin-bottom: 1em;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+
+.copy-button {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: transparent;
+    border: none;
+    color: #ffffff;
+    font-family: Arial, sans-serif;
+    font-size: 0.9em;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 4px;
+}
+
+.copy-button:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.copy-button svg {
+    width: 16px;
+    height: 16px;
+ 
+}
+
+#loading-indicator {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--color-primary);
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 5px;
+    font-size: 1.5rem;
+    z-index: 1000;
+    font-family: 'JetBrains Mono', monospace;
+}

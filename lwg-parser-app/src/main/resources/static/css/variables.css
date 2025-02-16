@@ -1,0 +1,32 @@
+:root {
+    /* Primary Colors */
+    --color-background: #080411;
+    --color-text: #f4f4f4;
+    --color-text-dark: #181818;
+    --color-primary: #752DE0;
+    --color-primary-light: #7714ff;
+    --color-primary-dark: #4f00b5;
+    --color-secondary: #3c3f41;
+    --color-accent: #ff5c5c;
+
+    /* Header & Navigation */
+    --color-header-bg: #0D0D0D;
+    --color-nav-bg: #191919;
+    --color-nav-hover: #666;
+
+    /* Forms & Inputs */
+    --color-box-bg: #0D0D0D;
+    --color-box-border: #333;
+    --color-input-bg: #404040;
+    --color-input-border: #888;
+
+    /* Button Colors */
+    --color-button-run: #0fe017;
+    --color-button-stop: #ff5c5c;
+    --color-button-debug: #007AFF;
+    --color-button-disabled: #444;
+    --color-button-hover: #555;
+
+    /* Misc */
+    --color-tab-close: #bfbfbf;
+}

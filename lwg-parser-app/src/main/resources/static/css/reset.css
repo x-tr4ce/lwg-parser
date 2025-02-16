@@ -1,0 +1,60 @@
+/* Reset margins, paddings, and borders for all common HTML elements */
+/* Also, set font to inherit and align elements to baseline */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+    margin: 0; /* Remove default margin */
+    padding: 0; /* Remove default padding */
+    border: 0; /* Remove default border */
+    font: inherit; /* Inherit font settings from parent */
+    vertical-align: baseline; /* Align elements to baseline */
+}
+
+/* Ensure HTML5 elements behave consistently in older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+    display: block; /* Set these elements to block display */
+}
+
+/* Set the body line-height to ensure consistent spacing */
+body {
+    line-height: 1; /* Prevents inconsistent spacing due to browser defaults */
+}
+
+/* Remove bullet points and numbers from ordered and unordered lists */
+ol, ul {
+    list-style: none; /* Remove list styles (bullets/numbers) */
+}
+
+/* Remove default quotes from blockquotes and q elements */
+blockquote, q {
+    quotes: none; /* Prevents the addition of quotes around blockquote and q elements */
+}
+
+/* Remove content that browsers may add before or after blockquotes and q elements */
+blockquote:before, blockquote:after,
+q:before, q:after {
+    content: none; /* Prevents automatic quotes added by some browsers */
+}
+
+/* Ensure tables have consistent borders and no extra spacing */
+table {
+    border-collapse: collapse; /* Merge table borders into a single line */
+    border-spacing: 0; /* Remove spacing between table cells */
+}
+
+/* bold elements should be bold */
+strong {
+    font-weight: bold;
+}
+

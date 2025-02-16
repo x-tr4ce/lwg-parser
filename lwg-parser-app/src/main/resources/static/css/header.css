@@ -1,0 +1,54 @@
+/*********************************************
+ * HEADER STYLES
+ ********************************************/
+header {
+    background-color: var(--color-header-bg);
+    color: var(--color-text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+/*********************************************
+ * LOGO STYLES
+ ********************************************/
+.logo {
+    position: absolute;
+    left: 2rem;
+}
+
+.logo h1 {
+    font-size: 1.5rem;
+}
+
+/*********************************************
+ * NAVIGATION MENU
+ ********************************************/
+nav {
+    display: flex;
+    list-style: none;
+    margin-right: 3rem;
+    gap: 3rem;
+}
+
+nav :last-child {
+    margin-right: 0;
+}
+
+nav button {
+    background: none;
+    border: none;
+    color: var(--color-text);
+    font: inherit;
+    cursor: pointer;
+    padding: 0;
+    text-decoration: none;
+}
+
+nav button:hover {
+    text-decoration: underline;
+}

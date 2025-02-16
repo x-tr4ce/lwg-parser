@@ -1,0 +1,315 @@
+@startuml lwg-class-diagram
+
+left to right direction
+
+skinparam linetype ortho
+
+package api {
+    class LwgController {
+        - {static} TYPE_SUCCESS: String
+        - {static} TYPE_ERROR: String
+        + processCode(CodeRequest request): ResponseEntity<ApiResponse>
+        - {static} runCode(String source): ApiResponse
+        - {static} run(List<String> errors, Scanner scanner, Parser parser, Environment environment, Interpreter interpreter): ApiResponse
+        - {static} craftErrorResponse(List<String> errors, String message): ErrorResponse
+    }
+
+    class CodeRequest {
+        - code: String
+        + getCode(): String
+        + setCode(String code): void
+    }
+
+    interface ApiResponse
+
+    class SuccessResponse implements ApiResponse {
+        - variables: Map<Integer, Integer>
+        + getType(): String
+    }
+
+    class ErrorResponse implements ApiResponse {
+            - errors: List<String>
+            + getType(): String
+    }
+}
+
+package error {
+    class ParseError {
+        - line: int
+        - message: String
+        + ParseError(int line, String message)
+        + getLine(): int
+        + getMessage(): String
+        + toString(): String
+    }
+
+    class ErrorHandler {
+        - {static} hadError: boolean
+        - {static} errorList: List<ParseError>
+        - ErrorHandler()
+        + {static} report(int line, String message): void
+        + {static} getErrors(): List<ParseError>
+        + {static} clearErrors(): void
+        + {static} hadError(): boolean
+    }
+}
+
+package interpreter {
+    class Environment {
+        - variables: Map<Integer, Integer>
+        + Environment()
+        + Environment(Map<String, Integer> variables)
+        + initVariablesIfAbsent(int... variables): void
+        - initVariableIfAbsent(int variable): void
+        + setVariable(int variable, int value): void
+        + getVariable(int variable): int
+        + getVariables(): Map<Integer, Integer>
+    }
+
+    abstract class Interpreter {
+        - environment: Environment
+        - isHalted: volatile boolean
+        - scheduler: ScheduledExecutorService
+        # Interpreter(Environment environment)
+        + {abstract} interpret(List<Statement> statements): void
+        + {abstract} interpretAsync(List<Statement> statements): CompletableFuture<Void>
+        + halt(): void
+        + isHalted(): boolean
+        # scheduleHalt(): void
+        # interpretAssignment(Assignment assignment): void
+    }
+
+    class LWInterpreter extends Interpreter {
+        + LWInterpreter(Environment environment)
+        + interpret(List<Statement> statements): void
+        + interpretAsync(List<Statement> statements): CompletableFuture<Void>
+        - interpretStatement(Statement statement): void
+        - interpretLoop(Loop loop): void
+        - interpretWhile(While whileStatement): void
+    }
+
+    class GOTOInterpreter extends Interpreter {
+        - programCounter: int
+        - statementList: List<Statement>
+        + GOTOInterpreter(Environment environment)
+        + interpret(List<Statement> statements): void
+        + interpretAsync(List<Statement> statements): CompletableFuture<Void>
+        - executeStatements(): void
+        - interpretStatement(Statement statement): void
+        - interpretIf(If ifStatement): void
+        - interpretGoto(Goto gotoStatement): void
+        - findStatement(int marker): int
+        - matchesMarker(Statement statement, int marker): boolean
+    }
+
+    class StatementNotFoundException {
+        - marker: int
+        + StatementNotFoundException(int marker)
+        + getMarker(): int
+    }
+}
+
+package parser {
+    abstract class Parser {
+        - tokens: List<Token>
+        # lastLine: int
+        # Parser()
+        # setTokens(List<Token> tokens): void
+        # getTokens(): List<Token>
+        + {abstract} parse(List<Token> tokens): List<Statement>
+        # parseAssignment(int line): Assignment
+        # consume(String message, TokenType... types): Token
+        # peek(): Token
+        - check(TokenType... type): boolean
+        - isAtEnd(): boolean
+        # validateSemicolon(List<Token> tokens): void
+        # skipToNextLine(int currentLine): void
+    }
+
+    class ParseException {
+        - line: int
+        + ParseException(String message, int line)
+        + getLine(): int
+    }
+
+    class LWParser extends Parser {
+        - balancedDeque: Deque<TokenType>
+        - encounteredEnd: boolean
+        - endLine: int
+        + LWParser()
+        + parse(List<Token> tokens): List<Statement>
+        - parseLW(List<Token> tokens): List<Statement>
+        - parseLoop(): Loop
+        - parseWhile(): While
+        - parseEnd(): void
+        - validateClosingSequence(int line): void
+        - pushOnDeque(TokenType type): void
+        - isBalancedStatementSequence(TokenType... expectedType): boolean
+    }
+
+    class GOTOParser extends Parser {
+        - markerNumberList: List<Integer>
+        - gotoValuesMap: Map<Integer, Integer>
+        - containsHalt: boolean
+        + GOTOParser()
+        + parse(List<Token> tokens): List<Statement>
+        - parseGOTO(List<Token> tokens): List<Statement>
+        - parseHalt(int line): Halt
+        - parseIf(int line): If
+        - parseGotoStatement(int line): Goto
+        - checkGotoValues(): void
+    }
+}
+
+package scanner {
+    abstract class Scanner {
+        - source: String
+        - tokens: List<Token>
+        - currentLine: int
+        - {static} IDENTIFIER: Pattern
+        - {static} CONSTANT: Pattern
+        # Scanner(String source)
+        + scanProgram(): List<Token>
+        # scanLine(String line): void
+        # matchToken(String word): boolean
+        + {abstract} isKeyword(String word): boolean
+        + {abstract} addKeywordToken(String word): void
+    }
+
+    class LWScanner extends Scanner {
+        - {static} KEYWORDS: Pattern
+        + LWScanner(String source)
+        + isKeyword(String word): boolean
+        + addKeywordToken(String word): void
+    }
+
+    class GOTOScanner extends Scanner {
+        - {static} KEYWORDS: Pattern
+        - {static} MARKER: Pattern
+        + GOTOScanner(String source)
+        + isKeyword(String word): boolean
+        + addKeywordToken(String word): void
+        # isMarker(String word): boolean
+        # addMarkerToken(String word): void
+        + matchToken(String word): boolean
+    }
+}
+
+package syntax {
+    class SyntaxDetector {
+        - {static} GOTO_PATTERN: Pattern
+        - {static} WHILE_PATTERN: Pattern
+        - {static} countMatches(String code, Pattern pattern): long
+        + {static} detectSyntax(String code): Syntax
+    }
+
+    enum Syntax {
+        GOTO
+        LW
+        MIXED
+    }
+
+    interface Statement
+
+    package syntax.generalsyntax {
+        class Assignment implements syntax.Statement {
+            - variable1Number: int
+            - variable2Number: int
+            - operator: Operator
+            - constant: int
+            - line: int
+        }
+
+        enum Operator {
+            ADDITION
+            SUBTRACTION
+        }
+    }
+
+    package syntax.lwsyntax {
+        class While implements syntax.Statement {
+            - variableNumber: int
+            - constant: int
+            - statements: List<Statement>
+            - line: int
+        }
+
+        class Loop implements syntax.Statement {
+            - usesConstant: boolean
+            - number: int
+            - statements: List<Statement>
+            - line: int
+        }
+    }
+
+    package syntax.gotosyntax {
+        class If implements syntax.Statement {
+            - variableNumber: int
+            - constant: int
+            - gotoMarkerNumber: int
+            - line: int
+        }
+
+        class Goto implements syntax.Statement {
+            - markerNumber: int
+            - line: int
+        }
+
+        class Halt implements syntax.Statement {
+            - line: int
+        }
+    }
+}
+
+package token {
+    class Token {
+        - type: TokenType
+        - value: int
+        - line: int
+        + Token(TokenType type, int line)
+        + Token(TokenType type, int line, int value)
+    }
+
+    enum TokenType {
+        LOOP
+        WHILE
+        DO
+        END
+        EQUALS
+        PLUS
+        MINUS
+        GREATER_THAN
+        IF
+        THEN
+        GOTO
+        HALT
+        SEMICOLON
+        COLON
+        VARIABLE
+        CONSTANT
+        MARKER
+    }
+}
+
+' Relationships
+LwgController o-- ErrorHandler
+LwgController o-- Environment
+LwgController o-- Scanner
+LwgController o-- Parser
+LwgController o-- Interpreter
+LwgController o-- SyntaxDetector
+LwgController o-- ApiResponse
+LwgController o-- CodeRequest
+ErrorHandler o-- ParseError
+Parser o-- Token
+Parser o-- Statement
+Parser o-- ParseException
+Interpreter o-- Environment
+Interpreter o-- Statement
+Interpreter o-- StatementNotFoundException
+Scanner o-- Token
+Token o-- TokenType
+Assignment o-- Operator
+SyntaxDetector o-- Syntax
+
+@enduml
