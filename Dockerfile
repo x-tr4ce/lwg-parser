@@ -22,8 +22,8 @@ RUN gradle clean build --no-daemon
 
 
 
-# Stage 2: Create a lightweight runtime image using OpenJDK
-FROM openjdk:21-slim
+# Stage 2: Create a lightweight distor-less image for the application
+FROM gcr.io/distroless/java21-debian12:38005a5a303edb04eed33167524f55fbdfafe8b9
 WORKDIR /app
 # Copy the compiled JAR file from the builder stage.
 COPY --from=builder /home/gradle/project/lwg-parser-app/build/libs/*.jar app.jar
