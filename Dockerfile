@@ -1,6 +1,6 @@
 # Stage 1: Build the application using a Gradle container
 FROM gradle:8.10.2-jdk17 AS builder
-WORKDIR /home/gradle/project
+WORKDIR /home/gradle/project/lwg-parser-app
 # Copy the entire project into the container (adjust if necessary)
 COPY --chown=gradle:gradle . .
 # Run the Gradle build. This will compile your Java project and trigger your frontend build.
