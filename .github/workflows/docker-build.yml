@@ -64,9 +64,9 @@ jobs:
       - name: Get Tag Annotation
         id: tag_annotation
         run: |
-        # Remove the "refs/tags/" prefix to get the tag name.
+          # Remove the "refs/tags/" prefix to get the tag name.
           TAG_NAME=${GITHUB_REF#refs/tags/}
-        # Extract the annotation content of that tag.
+          # Extract the annotation content of that tag.
           ANNOTATION=$(git for-each-ref --format='%(contents)' refs/tags/$TAG_NAME)
           echo "annotation=$ANNOTATION" >> $GITHUB_OUTPUT
 
