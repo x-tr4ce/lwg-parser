@@ -1,4 +1,4 @@
-# Stage 1: Build the application using a Gradle container
+# Stage 1: Build the application using a Gradle container with JDK21
 FROM gradle:8.10.2-jdk21 AS builder
 WORKDIR /home/gradle/project/lwg-parser-app
 # Copy the entire project into the container (adjust if necessary)
@@ -12,7 +12,7 @@ RUN apt-get update && \
     apt-get install -y nodejs
 
 # --- Build the Frontend ---
-# Navigate to the frontend folder, install dependencies, and run the build
+# Set correct WD, install dependencies, and run the build, then return to the project root
 WORKDIR /home/gradle/project/lwg-parser-app/src/frontend_build
 RUN npm install && npm run build
 WORKDIR /home/gradle/project/lwg-parser-app
@@ -26,7 +26,6 @@ RUN gradle clean build --no-daemon
 FROM openjdk:21-slim
 WORKDIR /app
 # Copy the compiled JAR file from the builder stage.
-# Adjust the path if your output JAR file location is different.
 COPY --from=builder /home/gradle/project/lwg-parser-app/build/libs/*.jar app.jar
 # Expose the port on which your application runs (default for Spring Boot is 8080)
 EXPOSE 8080
