@@ -46,8 +46,8 @@ jobs:
           push: true
           # Use multiple tags (for version and "latest")
           tags: |
-            ghcr.io/your-username/lwgparser-app:${{ github.ref_name }}
-            ghcr.io/your-username/lwgparser-app:latest
+            ghcr.io/x-tr4ce/lwgparser-app:${{ github.ref_name }}
+            ghcr.io/x-tr4ce/lwgparser-app:latest
             docker.io/${{ secrets.DOCKERHUB_USERNAME }}/lwgparser-app:${{ github.ref_name }}
             docker.io/${{ secrets.DOCKERHUB_USERNAME }}/lwgparser-app:latest
           platforms: linux/amd64,linux/arm64
